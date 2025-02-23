@@ -27,7 +27,8 @@
   },
   "homepage": "https://github.com/leticiamantovani/AuthManager#readme",
   "dependencies": {
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "mongoose": "^8.10.1"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
