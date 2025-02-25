@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import config from "./index";   
 
 const connectDb = async () => {
     try {
-        await mongoose.connect("mongodb://user123:senha123@localhost:27017");
+        await mongoose.connect(config.mongoUrl);
     } catch (error) {
         throw new Error("Error connecting to database");
     }

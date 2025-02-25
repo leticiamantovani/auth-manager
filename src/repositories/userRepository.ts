@@ -1,6 +1,6 @@
 const Users = require('../models/users');
 
-export default class UserRepositoryClass {
+export default class UserRepository {
 
     async createUser(username: string, password: string, role:string) {
         try {
