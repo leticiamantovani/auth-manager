@@ -1,4 +1,4 @@
-const Users = require('../models/users');
+import Users from "../models/users";
 
 export default class UserRepository {
 
@@ -12,7 +12,7 @@ export default class UserRepository {
 
     async getUser(username: string){
         try {
-            return await Users.get({username});
+            return await Users.findOne({username});
         } catch (error) {
             return error;
         }
@@ -20,7 +20,7 @@ export default class UserRepository {
 
     async updateUser(username: string, password: string, role: string){
         try {
-            return await Users.update({username, password, role});
+            return await Users.updateOne({username, password, role});
         } catch (error) {
             return error;
         }
@@ -28,7 +28,7 @@ export default class UserRepository {
 
     async deleteUser(username: string){
         try {
-            return await Users.delete({username});
+            return await Users.deleteOne({username});
         } catch (error) {
             return error;
         }

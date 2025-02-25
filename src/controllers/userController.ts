@@ -19,4 +19,14 @@ export class UserController {
             res.status(500).send(error);
         }
     }
+
+    public async registerHandler(req: Request, res: Response): Promise<void> {
+        try {
+            const { username, password, role } = req.body;
+            const response = await this.userService.registerUser(username, password, role);
+            res.status(response.status).send(response.message);
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    }
 };

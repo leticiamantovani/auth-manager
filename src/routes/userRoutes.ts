@@ -12,7 +12,8 @@ export class UserRouter {
     }
 
     private initializeRoutes(): void {
-        this.router.post('/', this.userController.loginHandler.bind(this.userController));
+        this.router.post('/login', this.userController.loginHandler.bind(this.userController));
+        this.router.post('/register', this.userController.registerHandler.bind(this.userController));
     }
 
     public getRouter(): Router {
