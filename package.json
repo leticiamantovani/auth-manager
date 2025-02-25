@@ -2,11 +2,11 @@
   "name": "authmanager",
   "version": "1.0.0",
   "description": "AuthManager is a secure and scalable authentication system built with TypeScript, Node.js, Express, MongoDB, JWT, and bcrypt. It provides a full authentication flow, including user registration, login, password hashing, and token-based authentication with role-based access control.",
-  "main": "src/index.ts",
+  "main": "src/app.ts",
   "scripts": {
     "test": "test",
     "build": "npx tsc",
-    "start": "npx ts-node src/index.ts"
+    "start": "npx ts-node src/app.ts"
   },
   "repository": {
     "type": "git",

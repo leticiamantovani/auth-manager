@@ -15,7 +15,7 @@ const userRepository = new UserRepositoryClass();
 const userService = new UserService(userRepository);
 const userController = new UserController(userService);
 const userRouter = new UserRouter(userController);
-app.use('/register', userRouter.getRouter());
+app.use('/', userRouter.getRouter());
 
 
 const appStart = async () => {
