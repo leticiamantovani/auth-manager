@@ -10,11 +10,11 @@ export default class UserRepository {
         }
     }
 
-    async getUser(username: string){
+    async getUser(username: string): Promise<Document | null> {
         try {
             return await Users.findOne({username});
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
