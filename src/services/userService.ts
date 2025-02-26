@@ -1,4 +1,6 @@
 import UserRepositoryClass from "../repositories/userRepository";
+import jsonwebtoken from "jsonwebtoken";
+import config from "../config/index";
 
 export class UserService {
     private userRepository: UserRepositoryClass;
@@ -23,8 +25,12 @@ export class UserService {
         if (user) {
             return { status: 409, message: "User already exists" };
         } else {
+
             await this.userRepository.createUser(username, password, role);
-            return { status: 201, message: "User created" };
+
+            const token = jsonwebtoken.sign({ username }, config.jwtSecret, { expiresIn: '1h' });
+
+            return { status: 201, message: "User created", token };
         }
     }
 };

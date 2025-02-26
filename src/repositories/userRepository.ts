@@ -6,7 +6,7 @@ export default class UserRepository {
         try {
             return await Users.create({username, password, role});
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
@@ -22,7 +22,7 @@ export default class UserRepository {
         try {
             return await Users.updateOne({username, password, role});
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
@@ -30,7 +30,7 @@ export default class UserRepository {
         try {
             return await Users.deleteOne({username});
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 };
