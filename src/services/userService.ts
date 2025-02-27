@@ -1,6 +1,7 @@
 import UserRepositoryClass from "../repositories/userRepository";
 import jsonwebtoken from "jsonwebtoken";
 import config from "../config/index";
+import bcrypt from "bcrypt";
 
 export class UserService {
     private userRepository: UserRepositoryClass;
@@ -12,7 +13,10 @@ export class UserService {
     async loginValidation(username: string, password: string) { 
         
         const user = await this.userRepository.getUser(username) as { password: string } | null;
-        if (user?.password === password) {
+
+        const isPasswordValid = await bcrypt.compare(password, user?.password as string);
+
+        if (isPasswordValid) {
             return { status: 200, message: "Login successful" };
         } else {
             return { status: 401, message: "Not authorized" };
@@ -26,7 +30,9 @@ export class UserService {
             return { status: 409, message: "User already exists" };
         } else {
 
-            await this.userRepository.createUser(username, password, role);
+            const hashPassword = await bcrypt.hash(password, 10);
+
+            await this.userRepository.createUser(username, hashPassword, role);
 
             const token = jsonwebtoken.sign({ username }, config.jwtSecret, { expiresIn: '1h' });
 
