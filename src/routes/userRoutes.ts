@@ -1,8 +1,9 @@
 import express, { Router } from 'express';
 import { UserController } from '../controllers/userController'; 
 import jwtMiddleware from "../middlewares/jwt";
+import { IUserRouter } from '../interfaces/IUserRouter';
 
-export class UserRouter {
+export class UserRouter implements IUserRouter {
     private router: Router;
     private userController: UserController;
 
