@@ -13,8 +13,12 @@ export class UserRouter {
     }
 
     private initializeRoutes(): void {
-        this.router.post('/login', jwtMiddleware, this.userController.loginHandler.bind(this.userController));
-        this.router.post('/register', this.userController.registerHandler.bind(this.userController));
+        this.router.post('/login', jwtMiddleware, (req, res, next) => {
+            this.userController.loginHandler(req, res).catch(next);
+        });
+        this.router.post('/register', (req, res, next) => {
+            this.userController.registerHandler(req, res).catch(next);
+        });
     }
 
     public getRouter(): Router {
