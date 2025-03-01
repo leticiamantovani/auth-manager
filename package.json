@@ -6,7 +6,8 @@
   "scripts": {
     "test": "test",
     "build": "npx tsc",
-    "start": "npx ts-node src/app.ts"
+    "start": "npx ts-node src/app.ts",
+    "dev": "nodemon"
   },
   "repository": {
     "type": "git",
