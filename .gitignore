@@ -3,3 +3,6 @@
 
 # Build output
 /dist
+
+# Coverage output
+/coverage
