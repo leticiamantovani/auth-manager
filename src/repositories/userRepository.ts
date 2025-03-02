@@ -1,6 +1,7 @@
 import Users from "../models/users";
 import { IUserRepository } from "../interfaces/IUserRepository";
 import { Document } from "mongoose";
+import IUser from "../interfaces/IUser";
 
 export default class UserRepository implements IUserRepository {
 
@@ -12,9 +13,10 @@ export default class UserRepository implements IUserRepository {
         }
     }
 
-    async getUser(username: string): Promise<Document | null> {
+    async getUser(username: string): Promise<IUser | null> {
         try {
-            return await Users.findOne({ username });
+            const user = await Users.findOne({ username }).lean();
+            return user as IUser | null;
         } catch (error) {
             throw error;
         }
