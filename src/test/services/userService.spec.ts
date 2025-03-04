@@ -5,6 +5,7 @@ import jsonwebtoken from "jsonwebtoken";
 import IUser from "../../interfaces/IUser";
 import config from "../../config";
 
+global.console.error = jest.fn();
 jest.mock("bcrypt");
 jest.mock("jsonwebtoken");
 
@@ -39,16 +40,25 @@ describe("UserService", () => {
 
             const response = await userService.loginValidation("leticia", "wrongpassword");
 
-            expect(response).toEqual({ status: 401, message: "Not authorized" });
+            expect(response).toEqual({ status: 401, message: "Invalid password" });
+        });
+
+        it("should return status 500 when database returns an error", async () => {
+            userRepositoryMock.getUser.mockRejectedValue(new Error("Internal server error"))
+
+            const response = await userService.loginValidation("leticia", "leticia123");
+
+            expect(response).toEqual({ status: 500, message: "Internal Server Error" });
         });
 
         it("should return status 404 when user is not found in the database", async () => {
             userRepositoryMock.getUser.mockResolvedValue(null);
 
-            const response = await userService.loginValidation("unknownUser", "anyPassword");
+            const response = await userService.loginValidation("leticia", "leticia123");
 
-            expect(response).toEqual({ status: 401, message: "Not authorized" });
+            expect(response).toEqual({ status: 404, message: "User not found" });
         });
+
     });
 
     describe("registerUser function tests", () => {
@@ -83,6 +93,26 @@ describe("UserService", () => {
                 { expiresIn: '1h' }
             );
         });
+
+        it("should return status 500 when databas returns an error", async () => {
+            userRepositoryMock.getUser.mockRejectedValue(new Error("Error"));
+
+            const response = await userService.registerUser("leticia", "password123", "admin");
+
+            expect(response).toEqual({
+                status: 500,
+                message:  "Internal Server Error",
+            });
+            expect(userRepositoryMock.getUser).toHaveBeenCalledWith("leticia");
+            expect(userRepositoryMock.createUser).not.toHaveBeenCalledWith("leticia", "hashedPassword", "admin");
+            expect(bcrypt.hash).not.toHaveBeenCalledWith("password123", 10);
+            expect(jsonwebtoken.sign).not.toHaveBeenCalledWith(
+                { username: "leticia" },
+                config.jwtSecret,
+                { expiresIn: '1h' }
+            );
+        });
+
     });
 
 });
