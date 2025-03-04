@@ -1,0 +1,50 @@
+{
+  "name": "authmanager",
+  "version": "1.0.0",
+  "description": "AuthManager is a secure and scalable authentication system built with TypeScript, Node.js, Express, MongoDB, JWT, and bcrypt. It provides a full authentication flow, including user registration, login, password hashing, and token-based authentication with role-based access control.",
+  "main": "src/app.ts",
+  "scripts": {
+    "test": "jest --config jest.config.ts",
+    "build": "npx tsc",
+    "start": "npx ts-node src/app.ts",
+    "dev": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leticiamantovani/AuthManager.git"
+  },
+  "keywords": [
+    "Authentication",
+    "JWT",
+    "Bcrypt",
+    "Password",
+    "Hashing",
+    "Login"
+  ],
+  "author": "Leticia Mantovani",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leticiamantovani/AuthManager/issues"
+  },
+  "homepage": "https://github.com/leticiamantovani/AuthManager#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.10.1"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
+    "@types/jsonwebtoken": "^9.0.9",
+    "jest": "^29.7.0",
+    "jest-environment-node": "^29.7.0",
+    "nodemon": "^3.1.9",
+    "ts-jest": "^29.2.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
