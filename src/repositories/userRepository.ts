@@ -15,7 +15,7 @@ export default class UserRepository implements IUserRepository {
 
     async getUser(username: string): Promise<IUser | null> {
         try {
-            const user = await Users.findOne({ username }).lean();
+            const user = await Users.findOne({ username });
             return user as IUser | null;
         } catch (error) {
             throw error;
@@ -24,7 +24,10 @@ export default class UserRepository implements IUserRepository {
 
     async updateUser(username: string, password: string, role: string): Promise<any> {
         try {
-            return await Users.updateOne({ username, password, role });
+            return await Users.updateOne(
+                { username }, 
+                { password, role }
+        );
         } catch (error) {
             throw error;
         }
