@@ -32,7 +32,7 @@ export class UserService {
     }
 
 
-    async registerUser(username: string, password: string, role: string) {
+    async registerUser(username: string, password: string) {
         try {
             const user = await this.userRepository.getUser(username);
             if (user) {
@@ -40,7 +40,7 @@ export class UserService {
             }
 
             const hashPassword = await bcrypt.hash(password, 10);
-            await this.userRepository.createUser(username, hashPassword, role);
+            await this.userRepository.createUser(username, hashPassword);
 
             const token = jsonwebtoken.sign({ username }, config.jwtSecret, { expiresIn: '1h' });
 

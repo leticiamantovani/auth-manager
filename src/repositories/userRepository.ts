@@ -5,9 +5,9 @@ import IUser from "../interfaces/IUser";
 
 export default class UserRepository implements IUserRepository {
 
-    async createUser(username: string, password: string, role: string): Promise<Document> {
+    async createUser(username: string, password: string): Promise<Document> {
         try {
-            return await Users.create({ username, password, role });
+            return await Users.create({ username, password });
         } catch (error) {
             throw error;
         }

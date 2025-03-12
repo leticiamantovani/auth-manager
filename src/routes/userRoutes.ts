@@ -20,6 +20,9 @@ export class UserRouter implements IUserRouter {
         this.router.post('/register', (req, res, next) => {
             this.userController.registerHandler(req, res).catch(next);
         });
+        this.router.get('/admin', (req, res, next) => {
+            this.userController.adminHandler(req, res).catch(next);
+        });
     }
 
     public getRouter(): Router {
