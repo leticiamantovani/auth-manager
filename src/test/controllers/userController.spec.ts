@@ -54,19 +54,19 @@ describe('UserController', () => {
     });
 
     it('should return 201 and a token on successful registration', async () => {
-        mockRequest.body = { username: 'newuser', password: 'pass123', role: 'user' };
+        mockRequest.body = { username: 'newuser', password: 'pass123' };
 
         userService.registerUser.mockResolvedValue({ status: 201, message: 'User created', token: 'mocked-token' });
 
         await userController.registerHandler(mockRequest as Request, mockResponse as Response);
 
-        expect(userService.registerUser).toHaveBeenCalledWith('newuser', 'pass123', 'user');
+        expect(userService.registerUser).toHaveBeenCalledWith('newuser', 'pass123');
         expect(statusMock).toHaveBeenCalledWith(201);
         expect(sendMock).toHaveBeenCalledWith({ message: 'User created', token: 'mocked-token' });
     });
 
     it('should return 500 if register throws an error', async () => {
-        mockRequest.body = { username: 'newuser', password: 'pass123', role: 'user' };
+        mockRequest.body = { username: 'newuser', password: 'pass123' };
 
         userService.registerUser.mockRejectedValue(new Error('Database error'));
 

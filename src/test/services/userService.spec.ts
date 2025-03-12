@@ -65,7 +65,7 @@ describe("UserService", () => {
         it("should return status 409 when the user already exists", async () => {
             userRepositoryMock.getUser.mockResolvedValue({ username: "leticia" } as IUser);
 
-            const response = await userService.registerUser("leticia", "password123", "admin");
+            const response = await userService.registerUser("leticia", "password123");
 
             expect(response).toEqual({ status: 409, message: "User already exists" });
             expect(userRepositoryMock.getUser).toHaveBeenCalledWith("leticia");
@@ -77,7 +77,7 @@ describe("UserService", () => {
             (bcrypt.hash as jest.Mock).mockResolvedValue("hashedPassword");
             (jsonwebtoken.sign as jest.Mock).mockReturnValue("fakeToken");
 
-            const response = await userService.registerUser("leticia", "password123", "admin");
+            const response = await userService.registerUser("leticia", "password123");
 
             expect(response).toEqual({
                 status: 201,
@@ -85,7 +85,7 @@ describe("UserService", () => {
                 token: "fakeToken",
             });
             expect(userRepositoryMock.getUser).toHaveBeenCalledWith("leticia");
-            expect(userRepositoryMock.createUser).toHaveBeenCalledWith("leticia", "hashedPassword", "admin");
+            expect(userRepositoryMock.createUser).toHaveBeenCalledWith("leticia", "hashedPassword");
             expect(bcrypt.hash).toHaveBeenCalledWith("password123", 10);
             expect(jsonwebtoken.sign).toHaveBeenCalledWith(
                 { username: "leticia" },
@@ -97,14 +97,14 @@ describe("UserService", () => {
         it("should return status 500 when databas returns an error", async () => {
             userRepositoryMock.getUser.mockRejectedValue(new Error("Error"));
 
-            const response = await userService.registerUser("leticia", "password123", "admin");
+            const response = await userService.registerUser("leticia", "password123");
 
             expect(response).toEqual({
                 status: 500,
                 message:  "Internal Server Error",
             });
             expect(userRepositoryMock.getUser).toHaveBeenCalledWith("leticia");
-            expect(userRepositoryMock.createUser).not.toHaveBeenCalledWith("leticia", "hashedPassword", "admin");
+            expect(userRepositoryMock.createUser).not.toHaveBeenCalledWith("leticia", "hashedPassword");
             expect(bcrypt.hash).not.toHaveBeenCalledWith("password123", 10);
             expect(jsonwebtoken.sign).not.toHaveBeenCalledWith(
                 { username: "leticia" },
