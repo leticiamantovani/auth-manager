@@ -23,6 +23,9 @@ export class UserRouter implements IUserRouter {
         this.router.get('/admin', (req, res, next) => {
             this.userController.adminHandler(req, res).catch(next);
         });
+        this.router.get('/user', (req, res, next) => {
+            this.userController.userHandler(req, res).catch(next);
+        });
     }
 
     public getRouter(): Router {

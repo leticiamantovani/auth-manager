@@ -51,4 +51,26 @@ export class UserController implements IUserController {
         }
         return res.status(200).json({ message: "Admin access granted" });
     }
+
+    public async userHandler(req: Request, res: Response): Promise<Response> {
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader) {
+            return res.status(401).json({ message: "Token not provided" });
+        }
+
+        const token = authHeader.split(" ")[1];
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { role: string };
+
+            if (decoded.role !== "user") {
+                return res.status(403).json({ message: "Invalid Access, only users can access this route." });
+            }
+        } catch (error) {
+            return res.status(401).json({ message: "Invalid Token" });
+        }
+        return res.status(200).json({ message: "User access granted" });
+    }
+
 };
