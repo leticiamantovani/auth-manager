@@ -28,24 +28,23 @@ describe("UserRepository", () => {
             _id: new Types.ObjectId(),
             username: "leticia",
             password: "password",
-            role: "admin",
         };
 
         (Users.create as jest.Mock).mockResolvedValue(mockUser);
 
-        const response = await userRepository.createUser("leticia", "password", "admin");
+        const response = await userRepository.createUser("leticia", "password");
 
         expect(response).toEqual(mockUser);
-        expect(Users.create).toHaveBeenCalledWith({ username: "leticia", password: "password", role: "admin" });
+        expect(Users.create).toHaveBeenCalledWith({ username: "leticia", password: "password" });
     });
 
     it("should throw a database error when creating a user", async () => {
         (Users.create as jest.Mock).mockRejectedValue(new Error("Internal Server Error"));
 
-        await expect(userRepository.createUser("leticia", "password", "admin"))
+        await expect(userRepository.createUser("leticia", "password"))
             .rejects.toThrow("Internal Server Error");
 
-        expect(Users.create).toHaveBeenCalledWith({ username: "leticia", password: "password", role: "admin" });
+        expect(Users.create).toHaveBeenCalledWith({ username: "leticia", password: "password" });
     });
 
     it("should return a user when getUser is called", async () => {
