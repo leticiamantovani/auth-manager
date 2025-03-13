@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="src/public/styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>REGISTRO</h2>
+        <form action="/register" method="POST">
+            <div class="input-group">
+                <input type="text" name="name" placeholder=" " required>
+                <label>Nome Completo</label>
+            </div>
+            <div class="input-group">
+                <input type="email" name="email" placeholder=" " required>
+                <label>Email</label>
+            </div>
+            <div class="input-group">
+                <input type="password" name="password" placeholder=" " required>
+                <label>Senha</label>
+            </div>
+            <button type="submit">REGISTRAR</button>
+        </form>
+    </div>
+</body>
+</html>
