@@ -26,6 +26,12 @@ export class UserRouter implements IUserRouter {
         this.router.get('/user', (req, res, next) => {
             this.userController.userHandler(req, res).catch(next);
         });
+        this.router.put('/update', jwtMiddleware, (req, res, next) => {
+            this.userController.updateHandler(req, res).catch(next);
+        });
+        this.router.post('/delete/:id', (req, res, next) => {
+            this.userController.deleteHandler(req, res).catch(next);
+        });
     }
 
     public getRouter(): Router {

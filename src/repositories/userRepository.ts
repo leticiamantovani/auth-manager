@@ -1,6 +1,6 @@
 import Users from "../models/users";
 import { IUserRepository } from "../interfaces/IUserRepository";
-import { Document } from "mongoose";
+import { Document, ObjectId, isValidObjectId } from "mongoose";
 import IUser from "../interfaces/IUser";
 
 export default class UserRepository implements IUserRepository {
@@ -22,22 +22,37 @@ export default class UserRepository implements IUserRepository {
         }
     }
 
-    async updateUser(username: string, password: string, role: string): Promise<any> {
+    async updateUser(userId: ObjectId, newUsername: string): Promise<any> {
         try {
             return await Users.updateOne(
-                { username }, 
-                { password, role }
-        );
+                { _id: userId }, 
+                { $set: { username: newUsername } } 
+            );
         } catch (error) {
             throw error;
         }
     }
 
-    async deleteUser(username: string): Promise<any> {
+    async deleteUser(userId: string): Promise<any> {
         try {
-            return await Users.deleteOne({ username });
+            return await Users.deleteOne({ _id: userId });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    
+    async getUserById(userId: string): Promise<IUser | null> {
+        try {
+            if (!isValidObjectId(userId)) {
+                throw new Error("Invalid user ID");
+            }
+
+            const user = await Users.findById(userId);
+            return user as IUser | null;
         } catch (error) {
             throw error;
         }
     }
 };
+
