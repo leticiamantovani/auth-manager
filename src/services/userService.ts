@@ -2,6 +2,7 @@ import UserRepositoryClass from "../repositories/userRepository";
 import jsonwebtoken from "jsonwebtoken";
 import config from "../config/index";
 import bcrypt from "bcrypt";
+import { ObjectId } from "mongoose";
 
 export class UserService {
     private userRepository: UserRepositoryClass;
@@ -48,6 +49,46 @@ export class UserService {
 
         } catch (error) {
             console.error("Error in registerUser:", error);
+            return { status: 500, message: "Internal Server Error" };
+        }
+    }
+
+    async updateUsername(oldUsername: string, newUsername: string): Promise<any> {
+        try {
+            const user = await this.userRepository.getUser(oldUsername);
+
+            if (!user) {
+                return { status: 404, message: "User not found" };
+            }
+
+            const existingUser = await this.userRepository.getUser(newUsername);
+            if (existingUser) {
+                return { status: 400, message: "Username already taken" };
+            }
+
+            await this.userRepository.updateUser(user._id as unknown as ObjectId, newUsername);
+
+            return { status: 200, message: "Username updated successfully" };
+        } catch (error) {
+            console.error("Error in updateUsername:", error);
+            return { status: 500, message: "Internal Server Error" };
+        }
+    }
+
+    
+    async deleteUser(userId: string): Promise<any> {
+        try {
+            const user = await this.userRepository.getUserById(userId);
+
+            if (!user) {
+                return { status: 404, message: "User not found" };
+            }
+
+            await this.userRepository.deleteUser(userId)
+
+            return { status: 200, message: "Username deleted successfully" };
+        } catch (error) {
+            console.error("Error in deleteUser:", error);
             return { status: 500, message: "Internal Server Error" };
         }
     }
